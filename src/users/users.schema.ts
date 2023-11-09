@@ -6,22 +6,22 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop({ required: true, unique: true })
+  @Prop({ type: String, required: true, unique: true })
   _id: Id;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ type: String, required: true, unique: true })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   passwordHash: string;
 
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   name: string;
 
-  @Prop()
+  @Prop({ type: String })
   contactPhone: string;
 
-  @Prop({ required: true, default: 'client' })
+  @Prop({ type: String, required: true, default: 'client' })
   role: Role;
 }
 

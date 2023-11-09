@@ -1,10 +1,9 @@
-FROM node:19-alpine
+FROM node:20.9-alpine
 
 WORKDIR /app
-COPY package.json .
-COPY yarn.lock .
+COPY package.json yarn.lock ./
 RUN yarn
-RUN yarn rebuild bcrypt
+RUN yarn add --force bcrypt
 
 COPY . .
 

@@ -17,7 +17,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "compose:up": "docker compose up",
+    "compose:stop": "docker compose stop",
+    "compose:rm": "docker compose rm"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -78,5 +81,5 @@
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
   },
-  "packageManager": "yarn@4.0.1"
+  "packageManager": "yarn@1.22.19"
 }
