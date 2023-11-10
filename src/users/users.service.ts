@@ -19,6 +19,9 @@ export class UsersService {
   getFullUserById(id: Id) {
     return this.userModel.findById(id).exec();
   }
+  getFullUserByEmail(email: string) {
+    return this.userModel.findOne({ email }).exec();
+  }
   findById(id: Id) {
     return this.userModel.findById(id, '-passwordHash').exec();
   }

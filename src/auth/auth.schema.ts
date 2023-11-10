@@ -2,8 +2,8 @@ import * as Joi from 'joi';
 import { LoginDto, RegistrationDto } from './auth.interfaces';
 
 export const loginSchema = Joi.object<LoginDto>({
-  email: Joi.string().email().required().required(),
-  password: Joi.string().required().required(),
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
 });
 
 export const registerSchema = Joi.object<RegistrationDto>({
