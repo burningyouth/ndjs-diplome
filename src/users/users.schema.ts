@@ -7,9 +7,6 @@ export type UserDocument = User & Document;
 @Schema()
 export class User {
   @Prop({ type: String, required: true, unique: true })
-  _id: Id;
-
-  @Prop({ type: String, required: true, unique: true })
   email: string;
 
   @Prop({ type: String, required: true })
