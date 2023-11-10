@@ -20,11 +20,4 @@ export interface SearchUserParams {
   contactPhone?: string;
 }
 
-export interface IUserService {
-  create(data: Partial<IUser>): Promise<IUser>;
-  findById(id: Id): Promise<IUser>;
-  findByEmail(email: string): Promise<IUser>;
-  findAll(params: SearchUserParams): Promise<IUser[]>;
-}
-
 export type CreateUserDto = Omit<IUser, 'passwordHash'> & { password: string };

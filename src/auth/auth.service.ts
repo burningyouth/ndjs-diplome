@@ -42,7 +42,7 @@ export class AuthService {
   }
 
   async validateUser(id: Id, passwordHash: string) {
-    const user = await this.usersService.findById(id);
+    const user = await this.usersService.getFullUserById(id);
     if (user && user.passwordHash === passwordHash) {
       return user;
     }

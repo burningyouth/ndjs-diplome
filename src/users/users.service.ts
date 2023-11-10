@@ -2,15 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
-import {
-  CreateUserDto,
-  IUserService,
-  SearchUserParams,
-} from './users.interfaces';
+import { CreateUserDto, SearchUserParams } from './users.interfaces';
 import { User } from './users.schema';
 
 @Injectable()
-export class UsersService implements IUserService {
+export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(data: CreateUserDto) {
@@ -20,13 +16,16 @@ export class UsersService implements IUserService {
     const newUser = new this.userModel(user);
     return newUser.save();
   }
-  findById(id: Id) {
+  getFullUserById(id: Id) {
     return this.userModel.findById(id).exec();
   }
+  findById(id: Id) {
+    return this.userModel.findById(id, '-passwordHash').exec();
+  }
   findByEmail(email: string) {
-    return this.userModel.findOne({ email }).exec();
+    return this.userModel.findOne({ email }, '-passwordHash').exec();
   }
   findAll(params: SearchUserParams) {
-    return this.userModel.find(params).exec();
+    return this.userModel.find(params, '-passwordHash').exec();
   }
 }

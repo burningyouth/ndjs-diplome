@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { HasRoles } from 'src/auth/has-roles.decorator';
 import { JWTAuthGuard } from 'src/auth/jwt.auth.guard';
@@ -13,7 +14,11 @@ export class UsersController {
   @HasRoles(Role.admin)
   @Post('admin/users')
   async create(@Body() createUserDto: CreateUserDto) {
-    const { _id, ...response } = await this.service.create(createUserDto);
+    const {
+      _id,
+      passwordHash: _,
+      ...response
+    } = await this.service.create(createUserDto);
     return { ...response, id: _id };
   }
 
