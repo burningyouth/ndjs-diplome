@@ -1,20 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import * as Joi from 'joi';
 import { Document } from 'mongoose';
-import { IHotel } from './hotels.interfaces';
+import { CreateHotelDto, UpdateHotelDto } from './hotels.interfaces';
 
-@Schema()
-export class Hotel extends Document implements IHotel {
+@Schema({ timestamps: true })
+export class Hotel extends Document {
   @Prop({ type: String, required: true, unique: true })
   title: string;
 
   @Prop({ type: String, required: true })
   description: string;
-
-  @Prop({ type: String, default: new Date().toISOString() })
-  createdAt: DateTimeISO;
-
-  @Prop({ type: String, default: new Date().toISOString() })
-  updatedAt: DateTimeISO;
 }
+
+export const createSchema = Joi.object<CreateHotelDto>({
+  title: Joi.string().required(),
+  description: Joi.string().required(),
+});
+
+export const updateSchema = Joi.object<UpdateHotelDto>({
+  title: Joi.string(),
+  description: Joi.string(),
+});
 
 export const HotelSchema = SchemaFactory.createForClass(Hotel);

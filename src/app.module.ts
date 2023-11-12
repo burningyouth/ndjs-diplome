@@ -8,6 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { HotelsModule } from './hotels/hotels.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { HotelRoomsModule } from './hotel-rooms/hotel-rooms.module';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -16,8 +17,12 @@ import { HotelRoomsModule } from './hotel-rooms/hotel-rooms.module';
     UsersModule,
     AuthModule,
     HotelsModule,
+    HotelRoomsModule,
     BookingsModule,
     HotelRoomsModule,
+    MulterModule.register({
+      dest: './upload',
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],

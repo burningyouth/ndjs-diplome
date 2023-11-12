@@ -2,26 +2,38 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HotelRoom } from './hotel-rooms.schema';
-import { SearchRoomsParams } from './hotels.interfaces';
+import {
+  CreateHotelRoomDto,
+  IFullHotelRoom,
+  SearchRoomsParams,
+  UpdateHotelRoomDto,
+} from './hotels.interfaces';
 
 @Injectable()
 export class HotelRoomsService {
-  constructor(@InjectModel(HotelRoom.name) private model: Model<HotelRoom>) {}
+  constructor(
+    @InjectModel(HotelRoom.name) private model: Model<IFullHotelRoom>,
+  ) {}
 
-  async create(data: Partial<HotelRoom>): Promise<HotelRoom> {
-    const room = new this.model(data);
-    return room.save();
+  async create(data: CreateHotelRoomDto) {
+    const { hotelId, ...other } = data;
+    const room = new this.model({ other, hotel: hotelId });
+    return (await room.save()).populate('hotel', 'id title');
   }
 
-  async findById(id: string): Promise<HotelRoom> {
-    return this.model.findById(id).exec();
+  async findById(id: Id) {
+    return this.model.findById(id).populate('hotel', 'id title').exec();
   }
 
-  async search(params: SearchRoomsParams): Promise<HotelRoom[]> {
-    return this.model.find(params).exec();
+  async search(params: SearchRoomsParams) {
+    return this.model.find(params).populate('hotel', 'id title').exec();
   }
 
-  async update(id: string, data: Partial<HotelRoom>): Promise<HotelRoom> {
-    return this.model.findByIdAndUpdate(id, data).exec();
+  async update(id: Id, data: UpdateHotelRoomDto) {
+    const { hotelId, ...other } = data;
+    return this.model
+      .findByIdAndUpdate(id, { other, hotel: hotelId })
+      .populate('hotel', 'id title')
+      .exec();
   }
 }
