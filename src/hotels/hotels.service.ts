@@ -46,6 +46,6 @@ export class HotelsService {
   }
 
   async update(id: Id, data: UpdateHotelDto): Promise<Hotel> {
-    return this.model.findByIdAndUpdate(id, data).exec();
+    return this.model.findByIdAndUpdate(id, data, { new: true }).exec();
   }
 }

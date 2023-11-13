@@ -32,7 +32,7 @@ export class HotelRoomsService {
   async update(id: Id, data: UpdateHotelRoomDto) {
     const { hotelId, ...other } = data;
     return this.model
-      .findByIdAndUpdate(id, { other, hotel: hotelId })
+      .findByIdAndUpdate(id, { ...other, hotel: hotelId }, { new: true })
       .populate('hotel', 'id title')
       .exec();
   }

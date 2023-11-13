@@ -73,7 +73,7 @@ export class HotelRoomsController {
   @HasRoles(Role.admin)
   @UseGuards(JWTAuthGuard, RolesGuard)
   @UseInterceptors(FilesInterceptor('images'))
-  @Put('admin/hotels-rooms/:id')
+  @Put('admin/hotel-rooms/:id')
   update(
     @Param('id') id: Id,
     @Body() data: UpdateHotelRoomDto,
@@ -90,12 +90,10 @@ export class HotelRoomsController {
     )
     images: any[],
   ) {
-    const uploadedImages = images?.map((image) => image.path);
-
-    if (uploadedImages) {
+    if (images) {
       return this.service.update(id, {
         ...data,
-        images: uploadedImages,
+        images: images?.map((image) => image.path),
       });
     }
     return this.service.update(id, data);
