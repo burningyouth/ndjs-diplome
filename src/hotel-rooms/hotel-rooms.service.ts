@@ -17,7 +17,7 @@ export class HotelRoomsService {
 
   async create(data: CreateHotelRoomDto) {
     const { hotelId, ...other } = data;
-    const room = new this.model({ other, hotel: hotelId });
+    const room = new this.model({ ...other, hotel: hotelId });
     return (await room.save()).populate('hotel', 'id title');
   }
 

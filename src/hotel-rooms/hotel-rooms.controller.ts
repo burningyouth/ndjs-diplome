@@ -9,20 +9,16 @@ import {
   Post,
   Put,
   Query,
-  UploadedFile,
+  UploadedFiles,
   UseGuards,
   UseInterceptors,
-  UsePipes,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FilesInterceptor } from '@nestjs/platform-express';
 import { HasRoles } from 'src/auth/has-roles.decorator';
 import { JWTAuthGuard } from 'src/auth/jwt.auth.guard';
 import { RolesGuard } from 'src/auth/roles.guard';
-import { JoiValidationPipe } from 'src/common/validation.pipe';
-import { updateSchema } from 'src/hotels/hotels.schema';
 import { Role } from 'src/users/users.interfaces';
-import { createSchema } from './hotel-rooms.schema';
 import { HotelRoomsService } from './hotel-rooms.service';
 import {
   CreateHotelRoomDto,
@@ -51,12 +47,11 @@ export class HotelRoomsController {
 
   @HasRoles(Role.admin)
   @UseGuards(JWTAuthGuard, RolesGuard)
-  @UsePipes(new JoiValidationPipe(createSchema))
-  @UseInterceptors(FileInterceptor('images'))
+  @UseInterceptors(FilesInterceptor('images'))
   @Post('admin/hotel-rooms')
   create(
     @Body() data: CreateHotelRoomDto,
-    @UploadedFile(
+    @UploadedFiles(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
           fileType: 'image',
@@ -64,31 +59,25 @@ export class HotelRoomsController {
 
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+          fileIsRequired: false,
         }),
     )
     images: any[],
   ) {
-    const uploadedImages = images?.map((image) => image.path);
-    const staticImages = data.images;
-
-    if (uploadedImages || staticImages) {
-      return this.service.create({
-        ...data,
-        images: (staticImages || []).concat(uploadedImages),
-      });
-    }
-    return this.service.create(data);
+    return this.service.create({
+      ...data,
+      images: images?.map((image) => image.path) ?? [],
+    });
   }
 
   @HasRoles(Role.admin)
   @UseGuards(JWTAuthGuard, RolesGuard)
-  @UsePipes(new JoiValidationPipe(updateSchema))
-  @UseInterceptors(FileInterceptor('images'))
+  @UseInterceptors(FilesInterceptor('images'))
   @Put('admin/hotels-rooms/:id')
   update(
     @Param('id') id: Id,
     @Body() data: UpdateHotelRoomDto,
-    @UploadedFile(
+    @UploadedFiles(
       new ParseFilePipeBuilder()
         .addFileTypeValidator({
           fileType: 'image',
@@ -96,17 +85,17 @@ export class HotelRoomsController {
 
         .build({
           errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+          fileIsRequired: false,
         }),
     )
     images: any[],
   ) {
     const uploadedImages = images?.map((image) => image.path);
-    const staticImages = data.images;
 
-    if (uploadedImages || staticImages) {
+    if (uploadedImages) {
       return this.service.update(id, {
         ...data,
-        images: (staticImages || []).concat(uploadedImages),
+        images: uploadedImages,
       });
     }
     return this.service.update(id, data);
