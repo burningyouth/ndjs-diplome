@@ -13,10 +13,7 @@ import { MulterModule } from '@nestjs/platform-express';
       dest: './upload',
     }),
     PassportModule,
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '1h' },
-    }),
+    JwtModule,
     MongooseModule.forFeature([
       { name: HotelRoom.name, schema: HotelRoomSchema },
     ]),

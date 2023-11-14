@@ -18,22 +18,30 @@ export class HotelRoomsService {
   async create(data: CreateHotelRoomDto) {
     const { hotelId, ...other } = data;
     const room = new this.model({ ...other, hotel: hotelId });
-    return (await room.save()).populate('hotel', 'id title');
+    return (await room.save()).populate('hotel', 'id title description');
   }
 
   async findById(id: Id) {
-    return this.model.findById(id).populate('hotel', 'id title').exec();
+    return this.model
+      .findById(id)
+      .populate('hotel', 'id title description')
+      .exec();
   }
 
-  async search(params: SearchRoomsParams) {
-    return this.model.find(params).populate('hotel', 'id title').exec();
+  async search(params: Partial<SearchRoomsParams>) {
+    const { limit = 10, ...other } = params;
+    return this.model
+      .find(other)
+      .limit(limit)
+      .populate('hotel', 'id title description')
+      .exec();
   }
 
   async update(id: Id, data: UpdateHotelRoomDto) {
     const { hotelId, ...other } = data;
     return this.model
       .findByIdAndUpdate(id, { ...other, hotel: hotelId }, { new: true })
-      .populate('hotel', 'id title')
+      .populate('hotel', 'id title description')
       .exec();
   }
 }
