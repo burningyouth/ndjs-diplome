@@ -17,11 +17,15 @@ import { RolesGuard } from 'src/auth/roles.guard';
 import { parseToken } from 'src/common/token';
 import { Role } from 'src/users/users.interfaces';
 import {
+  IFullReservation,
   ReservationDto,
   ReservationSearchOptions,
 } from './reservations.interfaces';
 import { ReservationsService } from './reservations.service';
+import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Id } from 'src/global';
 
+@ApiTags('reservations')
 @UseGuards(JWTAuthGuard, RolesGuard)
 @Controller()
 export class ReservationsController {
@@ -30,6 +34,10 @@ export class ReservationsController {
     private jwtService: JwtService,
   ) {}
 
+  @ApiResponse({
+    status: 200,
+    type: IFullReservation,
+  })
   @HasRoles(Role.client)
   @Post('client/reservations')
   addReservation(
@@ -40,6 +48,10 @@ export class ReservationsController {
     return this.service.addReservation(id, data);
   }
 
+  @ApiResponse({
+    status: 200,
+    type: [IFullReservation],
+  })
   @HasRoles(Role.client)
   @Get('client/reservations')
   getList(
@@ -53,6 +65,13 @@ export class ReservationsController {
     });
   }
 
+  @ApiResponse({
+    status: 200,
+  })
+  @ApiParam({
+    name: 'id',
+    type: String,
+  })
   @HasRoles(Role.client)
   @Delete('client/reservations/:id')
   async removeReservationClient(
@@ -66,6 +85,14 @@ export class ReservationsController {
     return this.service.removeReservation(id);
   }
 
+  @ApiResponse({
+    status: 200,
+    type: [IFullReservation],
+  })
+  @ApiParam({
+    name: 'userId',
+    type: String,
+  })
   @HasRoles(Role.manager)
   @Get('manager/reservations/:userId')
   getManagerList(
@@ -78,6 +105,13 @@ export class ReservationsController {
     });
   }
 
+  @ApiParam({
+    name: 'id',
+    type: String,
+  })
+  @ApiResponse({
+    status: 200,
+  })
   @HasRoles(Role.manager)
   @Delete('manager/reservations/:id')
   async removeReservationManager(@Param('id') id: Id) {

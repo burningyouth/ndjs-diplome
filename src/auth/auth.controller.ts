@@ -7,21 +7,32 @@ import {
   UsePipes,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto, RegistrationDto } from './auth.interfaces';
+import { LoginDto, LoginResponse, RegistrationDto } from './auth.interfaces';
 import { JWTAuthGuard } from './jwt.auth.guard';
 import { loginSchema, registerSchema } from './auth.schema';
 import { JoiValidationPipe } from 'src/common/validation.pipe';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { User } from 'src/users/users.schema';
 
+@ApiTags('auth')
 @Controller()
 export class AuthController {
   constructor(private service: AuthService) {}
 
+  @ApiResponse({
+    status: 200,
+    type: LoginResponse,
+  })
   @UsePipes(new JoiValidationPipe(loginSchema))
   @Post('auth/login')
   login(@Body() user: LoginDto) {
     return this.service.login(user.email, user.password);
   }
 
+  @ApiResponse({
+    status: 200,
+    type: User,
+  })
   @UsePipes(new JoiValidationPipe(registerSchema))
   @Post('client/register')
   async register(@Body() user: RegistrationDto) {

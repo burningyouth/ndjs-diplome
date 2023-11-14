@@ -1,23 +1,31 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export enum Role {
   admin = 'admin',
   manager = 'manager',
   client = 'client',
 }
 
-export interface IUser {
-  email: string;
-  passwordHash: string;
-  name: string;
-  contactPhone?: string;
-  role: Role;
-}
-
-export interface SearchUserParams {
+export class SearchUserParams {
+  @ApiProperty({ required: false })
   limit?: number;
+  @ApiProperty({ required: false })
   offset?: number;
+  @ApiProperty({ required: false })
   email?: string;
+  @ApiProperty({ required: false })
   name?: string;
+  @ApiProperty({ required: false })
   contactPhone?: string;
 }
 
-export type CreateUserDto = Omit<IUser, 'passwordHash'> & { password: string };
+export class CreateUserDto {
+  @ApiProperty()
+  email: string;
+  @ApiProperty()
+  password: string;
+  @ApiProperty()
+  name: string;
+  @ApiProperty({ required: false })
+  contactPhone?: string;
+}

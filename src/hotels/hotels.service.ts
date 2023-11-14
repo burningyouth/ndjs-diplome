@@ -7,6 +7,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Hotel } from './hotels.schema';
+import { Id } from 'src/global';
 
 interface SearchParams extends SearchHotelParams {
   isEnabled: boolean;

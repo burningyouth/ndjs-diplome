@@ -6,5 +6,3 @@ RUN yarn
 RUN yarn add --force bcrypt
 
 COPY . .
-
-CMD ["yarn", "start:dev"]

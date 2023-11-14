@@ -22,9 +22,13 @@ import { Role } from 'src/users/users.interfaces';
 import { HotelRoomsService } from './hotel-rooms.service';
 import {
   CreateHotelRoomDto,
+  IFullHotelRoom,
   SearchRoomsParams,
   UpdateHotelRoomDto,
-} from './hotels.interfaces';
+} from './hotel-rooms.interfaces';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Id } from 'src/global';
+@ApiTags('hotel-rooms')
 @Controller()
 export class HotelRoomsController {
   constructor(
@@ -32,6 +36,10 @@ export class HotelRoomsController {
     private jwtService: JwtService,
   ) {}
 
+  @ApiResponse({
+    status: 200,
+    type: [IFullHotelRoom],
+  })
   @Get('common/hotel-rooms')
   getCommonList(
     @Query() params: SearchRoomsParams,
@@ -45,6 +53,10 @@ export class HotelRoomsController {
     return this.service.search(_params);
   }
 
+  @ApiResponse({
+    status: 200,
+    type: IFullHotelRoom,
+  })
   @HasRoles(Role.admin)
   @UseGuards(JWTAuthGuard, RolesGuard)
   @UseInterceptors(FilesInterceptor('images'))
@@ -70,6 +82,10 @@ export class HotelRoomsController {
     });
   }
 
+  @ApiResponse({
+    status: 200,
+    type: IFullHotelRoom,
+  })
   @HasRoles(Role.admin)
   @UseGuards(JWTAuthGuard, RolesGuard)
   @UseInterceptors(FilesInterceptor('images'))

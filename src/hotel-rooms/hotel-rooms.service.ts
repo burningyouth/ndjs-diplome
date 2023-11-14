@@ -7,7 +7,8 @@ import {
   IFullHotelRoom,
   SearchRoomsParams,
   UpdateHotelRoomDto,
-} from './hotels.interfaces';
+} from './hotel-rooms.interfaces';
+import { Id } from 'src/global';
 
 @Injectable()
 export class HotelRoomsService {

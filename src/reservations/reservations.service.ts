@@ -7,6 +7,7 @@ import {
   ReservationSearchOptions,
 } from './reservations.interfaces';
 import { Reservation } from './reservations.schema';
+import { Id } from 'src/global';
 
 @Injectable()
 export class ReservationsService {

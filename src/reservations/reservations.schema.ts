@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Id } from 'src/global';
 import { HotelRoom } from 'src/hotel-rooms/hotel-rooms.schema';
 import { Hotel } from 'src/hotels/hotels.schema';
 import { User } from 'src/users/users.schema';

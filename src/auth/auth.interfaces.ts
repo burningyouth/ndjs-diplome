@@ -1,14 +1,16 @@
-import { Role } from 'src/users/users.interfaces';
+import { ApiProperty } from '@nestjs/swagger';
+import { CreateUserDto } from 'src/users/users.interfaces';
 
-export interface LoginDto {
+export class LoginDto {
+  @ApiProperty()
   email: string;
+  @ApiProperty()
   password: string;
 }
 
-export interface RegistrationDto {
-  name: string;
-  email: string;
-  password: string;
-  contactPhone?: string;
-  role: Role;
+export class LoginResponse {
+  @ApiProperty()
+  accessToken: string;
 }
+
+export class RegistrationDto extends CreateUserDto {}

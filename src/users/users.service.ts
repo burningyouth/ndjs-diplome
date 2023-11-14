@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { CreateUserDto, SearchUserParams } from './users.interfaces';
 import { User } from './users.schema';
+import { Id } from 'src/global';
 
 @Injectable()
 export class UsersService {

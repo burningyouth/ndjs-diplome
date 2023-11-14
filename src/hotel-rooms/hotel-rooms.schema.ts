@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { Id } from 'src/global';
 import { Hotel } from 'src/hotels/hotels.schema';
 
 @Schema({ timestamps: true })

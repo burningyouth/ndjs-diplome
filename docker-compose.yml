@@ -20,5 +20,6 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
+    command: yarn start:dev
     depends_on:
       - mongo
