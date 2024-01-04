@@ -1,7 +1,7 @@
 import { ApiProperty, ApiPropertyOptional, OmitType } from '@nestjs/swagger';
 import { DateTimeISO, Id } from 'src/global';
-import { ShortHotelRoom } from 'src/hotel-rooms/hotel-rooms.interfaces';
-import { ShortHotel } from 'src/hotels/hotels.interfaces';
+import { ShortHotelRoom } from 'src/hotels/hotel-rooms/hotel-rooms.interfaces';
+import { ShortHotel } from 'src/hotels/hotels/hotels.interfaces';
 
 export class ReservationDto {
   @ApiProperty({

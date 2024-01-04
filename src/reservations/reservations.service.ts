@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
-import { HotelRoom } from 'src/hotel-rooms/hotel-rooms.schema';
+import { HotelRoom } from 'src/hotels/hotel-rooms/hotel-rooms.schema';
 import {
   ReservationDto,
   ReservationSearchOptions,

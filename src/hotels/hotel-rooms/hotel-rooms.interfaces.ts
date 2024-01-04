@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
 import { DateTimeISO, Id } from 'src/global';
-import { ShortHotel } from 'src/hotels/hotels.interfaces';
+import { ShortHotel } from 'src/hotels/hotels/hotels.interfaces';
 
 export class SearchRoomsParams {
   @ApiPropertyOptional()

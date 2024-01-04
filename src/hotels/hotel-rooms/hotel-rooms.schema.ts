@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { Id } from 'src/global';
-import { Hotel } from 'src/hotels/hotels.schema';
+import { Hotel } from 'src/hotels/hotels/hotels.schema';
 
 @Schema({ timestamps: true })
 export class HotelRoom extends Document {
